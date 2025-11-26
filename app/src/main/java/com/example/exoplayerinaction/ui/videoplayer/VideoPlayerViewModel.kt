@@ -1,7 +1,6 @@
 package com.example.exoplayerinaction.ui.videoplayer
 
 import android.app.Application
-import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -12,20 +11,44 @@ import androidx.media3.exoplayer.ExoPlayer
  */
 class VideoPlayerViewModel(application: Application) : AndroidViewModel(application) {
 
-    // A sample video URL. Replace this with your actual video source.
-    private val videoUri: Uri = Uri.parse("https://storage.googleapis.com/exoplayer-test-media-01/mkv/android-screensavers-540p.mkv")
+    // A sample playlist of videos URL. Replace this with your actual video source.
+    val sampleVideoPlaylistUri = listOf<String>(
+        "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4",
+        "https://cdn.pixabay.com/video/2015/08/20/468-136808389_large.mp4"
+    )
+
+//    val sampleVideoUri2 = "https://cdn.pixabay.com/video/2015/08/20/468-136808389_large.mp4"
+    private val mediaItems = mutableListOf<MediaItem>()// Uri = sampleVideoUri.toUri()
+//    private val videoUri2: Uri = sampleVideoUri2.toUri()
+
+    init {
+        sampleVideoPlaylistUri.forEach{ videoUri ->
+            val mediaItem = MediaItem.Builder()
+                .setUri(videoUri)
+                .build()
+            mediaItems.add(mediaItem)
+        }
+    }
 
     // The ExoPlayer instance is exposed publicly but its state should primarily be managed
     // within the ViewModel lifecycle methods.
     val player: ExoPlayer = ExoPlayer.Builder(application)
         .build().apply {
             // Build the MediaItem
-            val mediaItem = MediaItem.Builder()
-                .setUri(videoUri)
-                .build()
+//            val mediaItem = MediaItem.Builder()
+//                .setUri(videoUri)
+//                .build()
+//
+//            val mediaItem2 = MediaItem.Builder()
+//                .setUri(videoUri2)
+//                .build()
 
             // Set the media item and prepare the player
-            setMediaItem(mediaItem)
+//            setMediaItem(mediaItem)
+//            addMediaItem(mediaItem2)
+            mediaItems.forEach { mediaItem ->
+                addMediaItem(mediaItem)
+            }
             prepare()
 
             // Set properties for immediate playback on load
