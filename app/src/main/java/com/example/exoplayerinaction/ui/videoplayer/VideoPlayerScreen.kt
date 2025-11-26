@@ -3,14 +3,22 @@ package com.example.exoplayerinaction.ui.videoplayer
 import android.content.Context
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,18 +28,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import androidx.media3.ui.compose.state.rememberNextButtonState
+import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
+import androidx.media3.ui.compose.state.rememberPreviousButtonState
+import com.example.exoplayerinaction.R
 
 @Composable
 fun VideoPlayerScreen(viewModel: VideoPlayerViewModel = viewModel()) {
@@ -110,19 +125,16 @@ fun CustomControlUI(modifier: Modifier, player: ExoPlayer){
     Column(modifier = modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Example: A simple Compose button to toggle play/pause
+        // Example: Compose buttons to toggle play/pause, previous, next
         // Custom UI in compose can be implemented here based on the player's state
-        Button(
-            onClick = {
-                if (player.isPlaying) {
-                    player.pause()
-                } else {
-                    player.play()
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(if (player.isPlaying) "Pause (Compose Control)" else "Play (Compose Control)")
+            PreviousButton(player)
+            PlayPauseButton(player)
+            NextButton(player)
         }
 
         val status = if (player.isPlaying) "Playing"
@@ -157,5 +169,44 @@ fun CustomControlUI(modifier: Modifier, player: ExoPlayer){
         }
 
         Text("Current Position: ${playbackPosition / 1000} seconds")
+    }
+}
+
+@OptIn(UnstableApi::class)
+@Composable
+fun PlayPauseButton(player: Player, modifier: Modifier = Modifier) {
+    val state = rememberPlayPauseButtonState(player)
+
+    IconButton(onClick = state::onClick, modifier = modifier, enabled = state.isEnabled) {
+        Icon(
+            imageVector = if (state.showPlay) Icons.Default.PlayArrow else Icons.Default.Pause,
+            contentDescription =
+                if (state.showPlay) stringResource(R.string.player_button_playpause_button_play)
+                else stringResource(R.string.player_button_playpause_button_pause),
+        )
+    }
+}
+@OptIn(UnstableApi::class)
+@Composable
+fun PreviousButton(player: Player, modifier: Modifier = Modifier) {
+    val state = rememberPreviousButtonState(player)
+
+    IconButton(onClick = state::onClick, modifier = modifier, enabled = state.isEnabled) {
+        Icon(
+            imageVector = Icons.Default.SkipPrevious,
+            contentDescription = stringResource(R.string.player_button_skip_previous)
+        )
+    }
+}
+@OptIn(UnstableApi::class)
+@Composable
+fun NextButton(player: Player, modifier: Modifier = Modifier) {
+    val state = rememberNextButtonState(player)
+
+    IconButton(onClick = state::onClick, modifier = modifier, enabled = state.isEnabled) {
+        Icon(
+            imageVector = Icons.Default.SkipNext,
+            contentDescription = stringResource(R.string.player_button_skip_next)
+        )
     }
 }
