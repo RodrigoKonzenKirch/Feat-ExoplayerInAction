@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.1"
-exoplayer = "1.1.1"
+exoplayer = "1.8.0"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -15,6 +15,12 @@ hilt = "2.51.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-media3-common = { module = "androidx.media3:media3-common", version.ref = "exoplayer" }
+androidx-media3-exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "exoplayer" }
+androidx-media3-exoplayer-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "exoplayer" }
+androidx-media3-exoplayer-rtsp = { module = "androidx.media3:media3-exoplayer-rtsp", version.ref = "exoplayer" }
+androidx-media3-exoplayer-smoothstreaming = { module = "androidx.media3:media3-exoplayer-smoothstreaming", version.ref = "exoplayer" }
+androidx-media3-ui-compose = { module = "androidx.media3:media3-ui-compose", version.ref = "exoplayer" }
 exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "exoplayer" }
 exoplayer-ui = { module = "androidx.media3:media3-ui", version.ref = "exoplayer" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

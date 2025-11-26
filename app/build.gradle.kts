@@ -52,8 +52,19 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
     implementation(libs.exoplayer)
     implementation(libs.exoplayer.ui)
+    implementation(libs.androidx.media3.common)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    // HLS support
+    implementation(libs.androidx.media3.exoplayer.hls)
+    // SmoothStreaming support
+    implementation(libs.androidx.media3.exoplayer.smoothstreaming)
+    // Optional: Extractor (for progressive formats like MP4, MP3)
+    implementation(libs.androidx.media3.exoplayer.rtsp)
+    implementation(libs.androidx.media3.ui.compose)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
