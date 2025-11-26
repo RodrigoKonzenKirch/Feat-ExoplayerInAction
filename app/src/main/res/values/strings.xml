@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Exoplayer In Action</string>
+    <string name="player_button_playpause_button_pause">Pause</string>
+    <string name="player_button_playpause_button_play">Play</string>
+    <string name="player_button_skip_previous">Skip Previous</string>
+    <string name="player_button_skip_next">Skip Next</string>
 </resources>
